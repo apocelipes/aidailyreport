@@ -48,7 +48,10 @@ func main() {
 				if err != nil {
 					return err
 				}
-				commitsPipe <- commits
+				preparedCommits := render.PrepareCommits(commits)
+				if preparedCommits != nil {
+					commitsPipe <- preparedCommits
+				}
 			}
 			return nil
 		})
@@ -74,7 +77,7 @@ func main() {
 			panic(err)
 		}
 	}
-	
+
 	workload := strings.TrimSuffix(buff.String(), "\n")
 	err := ollama.SendChatRequest(context.Background(), "qwen3:14b", *needThinking, workload)
 	if err != nil {
