@@ -7,16 +7,20 @@ import (
 	"github.com/ollama/ollama/api"
 )
 
-func SendChatRequest(ctx context.Context, model string, think bool, data string) error {
+func SendChatRequest(ctx context.Context, model string, think bool, oneline bool, data string) error {
 	client, err := api.ClientFromEnvironment()
 	if err != nil {
 		return err
+	}
+	prompt := userPrompt
+	if oneline {
+		prompt = oneLineUserPrompt
 	}
 	req := &api.ChatRequest{
 		Model: model,
 		Messages: []api.Message{
 			{Role: "system", Content: systemPrompt},
-			{Role: "user", Content: fmt.Sprintf(userPrompt, data)},
+			{Role: "user", Content: fmt.Sprintf(prompt, data)},
 		},
 		Think: &think,
 	}

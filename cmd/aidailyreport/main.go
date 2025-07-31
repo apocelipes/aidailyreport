@@ -23,6 +23,7 @@ func main() {
 	authorName := flag.String("name", "", "author name")
 	authorEmail := flag.String("email", "", "author email")
 	needThinking := flag.Bool("think", false, "turn on/off deep thinking")
+	oneLine := flag.Bool("oneline", false, "combine all commits for the same repo into a single line")
 	flag.Parse()
 
 	if *repoPaths == "" {
@@ -79,7 +80,7 @@ func main() {
 	}
 
 	workload := strings.TrimSuffix(buff.String(), "\n")
-	err := ollama.SendChatRequest(context.Background(), "qwen3:14b", *needThinking, workload)
+	err := ollama.SendChatRequest(context.Background(), "qwen3:14b", *needThinking, *oneLine, workload)
 	if err != nil {
 		panic(err)
 	}
