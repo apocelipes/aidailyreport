@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"os"
 	"runtime"
 	"strings"
@@ -20,6 +21,7 @@ import (
 func main() {
 	repoPaths := flag.String("path", "", "path to repos")
 	isWeekly := flag.Bool("weekly", false, "whether to generate weekly reports")
+	isMonthly := flag.Bool("monthly", false, "whether to generate monthly reports")
 	authorName := flag.String("name", "", "author name")
 	authorEmail := flag.String("email", "", "author email")
 	needThinking := flag.Bool("think", false, "turn on/off deep thinking")
@@ -30,10 +32,18 @@ func main() {
 		flag.Usage()
 		os.Exit(1)
 	}
+	if *isWeekly && *isMonthly {
+		_, _ = fmt.Fprintln(os.Stderr, "cannot both set -weekly and -monthly")
+		flag.Usage()
+		os.Exit(1)
+	}
 
-	since := timeutil.OneDayBefore(time.Now())
+	now := time.Now()
+	since := timeutil.OneDayBefore(now)
 	if *isWeekly {
-		since = timeutil.OneWeekBefore(time.Now())
+		since = timeutil.OneWeekBefore(now)
+	} else if *isMonthly {
+		since = timeutil.CurrentMonthFirstDay(now)
 	}
 
 	output := make(chan string, runtime.GOMAXPROCS(0)+1)
