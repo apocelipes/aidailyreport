@@ -22,7 +22,9 @@ func SendChatRequest(ctx context.Context, model string, think bool, oneline bool
 			{Role: "system", Content: systemPrompt},
 			{Role: "user", Content: fmt.Sprintf(prompt, data)},
 		},
-		Think: &think,
+		Think: &api.ThinkValue{
+			Value: &think,
+		},
 	}
 	return client.Chat(ctx, req, func(resp api.ChatResponse) error {
 		chunk := resp.Message.Content
