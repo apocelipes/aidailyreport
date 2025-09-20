@@ -26,6 +26,7 @@ func main() {
 	authorEmail := flag.String("email", "", "author email")
 	needThinking := flag.Bool("think", false, "turn on/off deep thinking")
 	oneLine := flag.Bool("oneline", false, "combine all commits for the same repo into a single line")
+	modelName := flag.String("model", "qwen3:14b", "the LLM will be used")
 	flag.Parse()
 
 	if *repoPaths == "" {
@@ -90,7 +91,7 @@ func main() {
 	}
 
 	workload := strings.TrimSuffix(buff.String(), "\n")
-	err := ollama.SendChatRequest(context.Background(), "qwen3:14b", *needThinking, *oneLine, workload)
+	err := ollama.SendChatRequest(context.Background(), *modelName, *needThinking, *oneLine, workload)
 	if err != nil {
 		panic(err)
 	}
