@@ -4,7 +4,7 @@ go 1.25.3
 
 require (
 	github.com/go-git/go-git/v5 v5.16.3
-	github.com/ollama/ollama v0.12.6
+	github.com/ollama/ollama v0.12.9
 	golang.org/x/sync v0.17.0
 )
 
