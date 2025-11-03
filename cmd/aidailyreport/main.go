@@ -90,6 +90,11 @@ func main() {
 		}
 	}
 
+	if buff.Len() == 0 {
+		fmt.Fprintln(os.Stderr, "No content!")
+		os.Exit(1)
+	}
+
 	workload := strings.TrimSuffix(buff.String(), "\n")
 	err := ollama.SendChatRequest(context.Background(), *modelName, *needThinking, *oneLine, workload)
 	if err != nil {
