@@ -13,7 +13,6 @@ import (
 	"github.com/apocelipes/aidailyreport/internal/data"
 	"github.com/apocelipes/aidailyreport/internal/ollama"
 	"github.com/apocelipes/aidailyreport/internal/render"
-	"github.com/apocelipes/aidailyreport/internal/walker"
 	"github.com/apocelipes/aidailyreport/pkg/timeutil"
 	"golang.org/x/sync/errgroup"
 )
@@ -69,7 +68,7 @@ func main() {
 		})
 	}
 	go func() {
-		err := walker.WalkAllGitRepos(*repoPaths, output)
+		err := collector.FindAllGitRepos(*repoPaths, output)
 		if err != nil {
 			panic(err)
 		}
