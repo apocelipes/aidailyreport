@@ -41,7 +41,7 @@ func main() {
 	now := time.Now()
 	since := timeutil.OneDayBefore(now)
 	if *isWeekly {
-		since = timeutil.OneWeekBefore(now)
+		since = timeutil.OneWeekBefore(time.Monday, now)
 	} else if *isMonthly {
 		since = timeutil.CurrentMonthFirstDay(now)
 	}
